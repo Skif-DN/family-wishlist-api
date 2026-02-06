@@ -104,7 +104,7 @@ This approach reflects real-world backend security practices rather than tutoria
 
 ```bash
 ./mvnw spring-boot:run
-
+```
 ---
 
 ## Project Status
