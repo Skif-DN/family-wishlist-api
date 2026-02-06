@@ -130,4 +130,3 @@ It is intended as a portfolio backend project rather than a tutorial exercise.
 ## Author
 
 Oleksii Trufanov ([GitHub](https://github.com/Skif-DN))
-```
