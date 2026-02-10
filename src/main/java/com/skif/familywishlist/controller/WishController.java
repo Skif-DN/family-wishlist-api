@@ -8,27 +8,49 @@ import com.skif.familywishlist.mapper.WishMapper;
 import com.skif.familywishlist.service.PersonService;
 import com.skif.familywishlist.service.WishService;
 import jakarta.validation.Valid;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/wishes")
 public class WishController {
     private final WishService wishService;
+    private static final Set<String> ALLOWED_SORT_FIELDS = Set.of(
+            "title",
+            "description",
+            "createdAt",
+            "fulfilledAt"
+    );
 
-    public WishController(WishService wishService, PersonService personService) {
+    public WishController(WishService wishService) {
         this.wishService = wishService;
     }
 
     @GetMapping("/byOwner/{personId}")
-    public List<WishResponseDTO> getWishesByOwner(@PathVariable UUID personId) {
+    public ResponseEntity<Page<WishResponseDTO>> getWishesByOwner(@PathVariable UUID personId,
+                                                                  @PageableDefault(page = 0, size = 10, sort = "title", direction = Sort.Direction.ASC)
+                                                                  Pageable pageable) {
 
-        return wishService.getAllWishesByOwner(personId).stream()
-                .map(WishMapper::toDto)
-                .toList();
+        if (pageable.getPageSize() > 50) {
+            pageable = PageRequest.of(pageable.getPageNumber(), 50, pageable.getSort());
+        }
+
+        pageable = validatePageable(pageable);
+
+        Page<WishResponseDTO> dtoPage =
+                wishService.getAllWishesByOwner(personId, pageable)
+                        .map(WishMapper::toDto);
+
+        return ResponseEntity.ok(dtoPage);
     }
 
     @PostMapping
@@ -77,5 +99,16 @@ public class WishController {
 
         wishService.deleteWish(wishId, dto.getPin());
         return ResponseEntity.noContent().build();
+    }
+
+    private Pageable validatePageable(Pageable pageable) {
+        for (Sort.Order order : pageable.getSort()) {
+            if (!ALLOWED_SORT_FIELDS.contains(order.getProperty())) {
+                throw new IllegalArgumentException(
+                        "Sorting by '" + order.getProperty() + "' is not allowed"
+                );
+            }
+        }
+        return pageable;
     }
 }

@@ -1,13 +1,11 @@
 package com.skif.familywishlist.service;
 
 import com.skif.familywishlist.domain.Family;
-import com.skif.familywishlist.domain.Gender;
 import com.skif.familywishlist.domain.Person;
 import com.skif.familywishlist.domain.User;
 import com.skif.familywishlist.dto.person.PersonCreateDTO;
 import com.skif.familywishlist.repositories.PersonRepository;
-import com.skif.familywishlist.repositories.UserRepository;
-import com.skif.familywishlist.utils.SecurityUtils;
+import org.springframework.data.domain.Sort;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -66,12 +64,12 @@ public class PersonService {
     }
 
     public Person getPersonById(UUID personId) {
-        return personRepository.findByIdWithWishes(personId)
+        return personRepository.findById(personId)
                 .orElseThrow(() -> new IllegalArgumentException("Person not found"));
     }
 
-    public List<Person> getPersonsByFamilyId(UUID familyId) {
-        return personRepository.findByFamilyIdWithWishes(familyId);
+    public List<Person> getPersonsByFamilyId(UUID familyId, Sort sort) {
+        return personRepository.findByFamilyId(familyId, sort);
     }
 
     @Transactional
@@ -81,7 +79,7 @@ public class PersonService {
         User user = userService.getCurrentUser();
         Family family = user.getFamily();
 
-        if (family == null || !family.getMembers().contains(person)) {
+        if (family == null || !person.getFamily().getId().equals(family.getId())) {
             throw new SecurityException("Access denied");
         }
 

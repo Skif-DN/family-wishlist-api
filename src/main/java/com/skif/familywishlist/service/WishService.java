@@ -5,6 +5,8 @@ import com.skif.familywishlist.domain.Wish;
 import com.skif.familywishlist.dto.wish.WishRequestDTO;
 import com.skif.familywishlist.repositories.PersonRepository;
 import com.skif.familywishlist.repositories.WishRepository;
+import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Pageable;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -84,8 +86,8 @@ public class WishService {
                 .orElseThrow(()-> new IllegalArgumentException("Wish not found"));
     }
 
-    public List<Wish> getAllWishesByOwner(UUID ownerId) {
-        return wishRepository.findByOwnerId(ownerId);
+    public Page<Wish> getAllWishesByOwner(UUID ownerId, Pageable  pageable) {
+        return wishRepository.findByOwnerId(ownerId, pageable);
     }
 
     @Transactional

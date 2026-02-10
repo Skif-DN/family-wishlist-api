@@ -6,16 +6,25 @@ import com.skif.familywishlist.dto.person.PersonResponseDTO;
 import com.skif.familywishlist.mapper.PersonMapper;
 import com.skif.familywishlist.service.PersonService;
 import jakarta.validation.Valid;
+import org.apache.coyote.BadRequestException;
+import org.springframework.data.domain.Sort;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Set;
 import java.util.UUID;
 
 @RestController
 @RequestMapping("/persons")
 public class PersonController {
     private final PersonService personService;
+    private static final Set<String> ALLOWED_SORT_FIELDS = Set.of(
+            "firstName",
+            "lastName",
+            "birthDate",
+            "gender"
+    );
 
     public PersonController(PersonService personService) {
         this.personService = personService;
@@ -29,11 +38,29 @@ public class PersonController {
     }
 
     @GetMapping("/family/{familyId}")
-    public List<PersonResponseDTO> getAllPersonsByFamilyId(@PathVariable UUID familyId) {
-        return personService.getPersonsByFamilyId(familyId).stream()
-                .map(PersonMapper ::toDto)
-                .toList();
-    }
+    public ResponseEntity<List<PersonResponseDTO>> getAllPersonsByFamilyId(
+                                                    @PathVariable UUID familyId,
+                                                    @RequestParam(defaultValue = "firstName") String sortBy,
+                                                    @RequestParam(defaultValue = "asc") String direction
+) throws BadRequestException {
+        if (!ALLOWED_SORT_FIELDS.contains(sortBy)) {
+            throw new BadRequestException("Sorting by this field is not allowed");
+        }
+
+            Sort sort = Sort.by(
+                    direction.equalsIgnoreCase("desc")
+                            ? Sort.Direction.DESC
+                            : Sort.Direction.ASC,
+                    sortBy
+            );
+
+            return ResponseEntity.ok(
+                    personService.getPersonsByFamilyId(familyId, sort)
+                            .stream()
+                            .map(PersonMapper::toDto)
+                            .toList()
+            );
+        }
 
     @PostMapping
     public ResponseEntity<PersonResponseDTO> createPerson(@Valid @RequestBody PersonCreateDTO dto) {

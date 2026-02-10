@@ -1,12 +1,13 @@
 package com.skif.familywishlist.service;
 
 import com.skif.familywishlist.domain.Family;
-import com.skif.familywishlist.domain.Person;
 import com.skif.familywishlist.domain.Role;
 import com.skif.familywishlist.domain.User;
 import com.skif.familywishlist.repositories.FamilyRepository;
 import com.skif.familywishlist.repositories.UserRepository;
 import com.skif.familywishlist.utils.SecurityUtils;
+import org.springframework.data.domain.Sort;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -38,7 +39,7 @@ public class UserService {
     }
 
     @Transactional
-    public User register (String username, String rawPassword) {
+    public void register (String username, String rawPassword) {
         if (userRepository.existsByUsername(username)) {
             throw new IllegalArgumentException("Username already exists");
         }
@@ -46,7 +47,7 @@ public class UserService {
         User user = new User(username, passwordEncoder.encode(rawPassword));
         user.setRole(Role.USER);
 
-        return userRepository.save(user);
+        userRepository.save(user);
     }
 
     @Transactional
@@ -118,7 +119,8 @@ public class UserService {
         return user.getFamily();
     }
 
-    public List<User> getUsers() {
-        return userRepository.findAll();
+    @PreAuthorize("hasRole('ADMIN')")
+    public List<User> getUsers(Sort sort) {
+        return userRepository.findAll(sort);
     }
 }
