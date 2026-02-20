@@ -9,6 +9,7 @@ The project is designed as a backend-first application and prepared for future R
 
 ## Tech Stack
 
+- Docker
 - Java 17
 - Spring Boot
 - Spring Security + JWT
@@ -105,6 +106,34 @@ This approach reflects real-world backend security practices rather than tutoria
 ```bash
 ./mvnw spring-boot:run
 ```
+
+## Running with Docker
+
+You can run the application with PostgreSQL and pgAdmin using Docker Compose.
+
+1. Configure the environment file (if using .env) with access rights to the PostgreSQL database, pgAdmin, and the application.
+2. Build and start containers:
+
+```bash
+docker compose up --build
+```
+
+This will start:
+
+app – Spring Boot on http://localhost:8080
+
+db – PostgreSQL on localhost:5433
+
+pgadmin – pgAdmin on http://localhost:5050 (use email/password from .env)
+
+3. For stop and remove containers:
+
+```bash
+docker compose down -v
+```
+
+-v also removes volumes, useful for starting with a fresh database.
+
 ---
 
 ## Project Status
