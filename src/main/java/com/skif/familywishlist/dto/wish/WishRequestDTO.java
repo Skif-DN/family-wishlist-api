@@ -1,6 +1,7 @@
 package com.skif.familywishlist.dto.wish;
 
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 
 import java.util.UUID;
 
@@ -10,7 +11,11 @@ public class WishRequestDTO {
 
     @NotBlank
     private String description;
+
+    @NotNull
     private UUID ownerId;
+
+    @NotNull
     private String pin;
 
     public String getTitle() {

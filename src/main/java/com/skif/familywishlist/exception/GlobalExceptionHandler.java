@@ -16,7 +16,7 @@ import java.util.Map;
         @ExceptionHandler(IllegalArgumentException.class)
         public ResponseEntity<ErrorResponse> handleIllegalArgument(IllegalArgumentException ex) {
             return ResponseEntity
-                    .status(HttpStatus.BAD_REQUEST)
+                    .status(HttpStatus.NOT_FOUND)
                     .body(new ErrorResponse(ex.getMessage(), 400));
         }
 
