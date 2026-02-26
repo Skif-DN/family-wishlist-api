@@ -17,6 +17,7 @@ The project is designed as a backend-first application and prepared for future R
 - PostgreSQL
 - Jakarta Validation
 - REST API
+- JUnit 5 + Mockito
 
 ---
 
@@ -133,6 +134,16 @@ docker compose down -v
 ```
 
 -v also removes volumes, useful for starting with a fresh database.
+
+## Testing
+
+All services and controllers are covered with unit and integration tests using JUnit 5 and Mockito.
+
+Run tests with:
+
+```bash
+./mvnw test
+```
 
 ---
 
