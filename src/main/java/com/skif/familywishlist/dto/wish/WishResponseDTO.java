@@ -1,5 +1,7 @@
 package com.skif.familywishlist.dto.wish;
 
+import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
 import java.util.UUID;
 
 public class WishResponseDTO {
@@ -8,6 +10,24 @@ public class WishResponseDTO {
     private String description;
     private boolean fulfilled;
     private UUID ownerId;
+    private OffsetDateTime createdAt;
+    private OffsetDateTime fulfilledAt;
+
+    public OffsetDateTime getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(OffsetDateTime createdAt) {
+        this.createdAt = createdAt;
+    }
+
+    public OffsetDateTime getFulfilledAt() {
+        return fulfilledAt;
+    }
+
+    public void setFulfilledAt(OffsetDateTime fulfilledAt) {
+        this.fulfilledAt = fulfilledAt;
+    }
 
     public UUID getId() {
         return id;

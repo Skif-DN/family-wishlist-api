@@ -13,6 +13,8 @@ public class WishMapper {
                 dto.setDescription(wish.getDescription());
                 dto.setFulfilled(wish.isFulfilled());
                 dto.setOwnerId(wish.getOwner().getId());
+                dto.setCreatedAt(wish.getCreatedAt());
+                dto.setFulfilledAt(wish.getFulfilledAt());
         return dto;
     }
 }

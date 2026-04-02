@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonManagedReference;
 import jakarta.persistence.*;
 
 import java.time.LocalDateTime;
+import java.time.OffsetDateTime;
+import java.time.ZoneOffset;
 import java.util.Objects;
 import java.util.UUID;
 
@@ -21,19 +23,17 @@ public class Wish {
     )
     private UUID id;
 
-    @Column(name = "Title",  nullable = false)
+    @Column(name = "Title",  nullable = false, length = 50)
     private String title;
 
-    @Column(name = "Description",   nullable = false)
+    @Column(name = "Description",   nullable = false, length = 500)
     private String description;
 
     @Column(name = "Created_Date")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime createdAt;
+    private OffsetDateTime createdAt;
 
     @Column(name = "Fulfilled")
-    @Temporal(TemporalType.TIMESTAMP)
-    private LocalDateTime fulfilledAt;
+    private OffsetDateTime fulfilledAt;
 
     @Column(name = "Fulfilled_Flag", nullable = false)
     private boolean fulfilled;
@@ -49,7 +49,7 @@ public class Wish {
         this.title = title;
         this.description = description;
         this.owner = owner;
-        this.createdAt = LocalDateTime.now();
+        this.createdAt = OffsetDateTime.now(ZoneOffset.UTC);
         this.fulfilledAt = null;
         this.fulfilled = false;
     }
@@ -78,11 +78,11 @@ public class Wish {
         this.description = description;
     }
 
-    public LocalDateTime getCreatedAt() {
+    public OffsetDateTime getCreatedAt() {
         return createdAt;
     }
 
-    public LocalDateTime getFulfilledAt() {
+    public OffsetDateTime getFulfilledAt() {
         return fulfilledAt;
     }
 
@@ -100,7 +100,7 @@ public class Wish {
 
     public void markAsFulfilled() {
         this.fulfilled = true;
-        this.fulfilledAt = LocalDateTime.now();
+        this.fulfilledAt = OffsetDateTime.now(ZoneOffset.UTC);
     }
 
     public void markAsUnfulfilled() {

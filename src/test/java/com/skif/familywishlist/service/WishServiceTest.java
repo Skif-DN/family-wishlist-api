@@ -203,6 +203,7 @@ class WishServiceTest {
         wishRequestDTO.setOwnerId(ownerId);
         wishRequestDTO.setTitle("New title");
         wishRequestDTO.setDescription("New description");
+        wishRequestDTO.setPin("1234");
 
         Person person = Mockito.mock(Person.class);
         User ownerUser = Mockito.mock(User.class);
@@ -210,6 +211,8 @@ class WishServiceTest {
 
         Wish wish = new Wish("Old title", "Old description", person);
         wish.setId(wishId);
+
+        when(person.checkPin("1234", passwordEncoder)).thenReturn(true);
 
         when(personService.getPersonById(ownerId))
                 .thenReturn(person);

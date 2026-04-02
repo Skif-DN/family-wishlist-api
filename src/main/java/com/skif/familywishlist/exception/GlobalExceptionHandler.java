@@ -48,7 +48,7 @@ import java.util.Map;
                 errors.put(fieldError.getField(), fieldError.getDefaultMessage());
             }
 
-            String message = String.join("; ", errors.values());
+            String message = String.join(". ", errors.values());
             return ResponseEntity
                     .status(HttpStatus.BAD_REQUEST)
                     .body(new ErrorResponse(message, 400));

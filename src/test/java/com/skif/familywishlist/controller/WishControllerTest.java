@@ -3,6 +3,7 @@ package com.skif.familywishlist.controller;
 import com.skif.familywishlist.domain.Person;
 import com.skif.familywishlist.domain.Wish;
 import com.skif.familywishlist.dto.wish.WishRequestDTO;
+import com.skif.familywishlist.service.PersonService;
 import com.skif.familywishlist.service.WishService;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -32,6 +33,9 @@ class WishControllerTest {
 
     @MockBean
     private WishService wishService;
+
+    @MockBean
+    private PersonService personService;
 
     @Test
     void createWish_shouldReturnCreatedWish() throws Exception {

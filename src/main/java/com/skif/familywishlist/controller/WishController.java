@@ -4,6 +4,7 @@ import com.skif.familywishlist.domain.Wish;
 import com.skif.familywishlist.dto.wish.WishDeleteRequestDTO;
 import com.skif.familywishlist.dto.wish.WishRequestDTO;
 import com.skif.familywishlist.dto.wish.WishResponseDTO;
+import com.skif.familywishlist.dto.wish.WishStatsDTO;
 import com.skif.familywishlist.mapper.WishMapper;
 import com.skif.familywishlist.service.PersonService;
 import com.skif.familywishlist.service.WishService;
@@ -14,6 +15,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.web.PageableDefault;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.core.parameters.P;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -24,6 +26,8 @@ import java.util.UUID;
 @RequestMapping("/wishes")
 public class WishController {
     private final WishService wishService;
+    private final PersonService personService;
+
     private static final Set<String> ALLOWED_SORT_FIELDS = Set.of(
             "title",
             "description",
@@ -31,8 +35,9 @@ public class WishController {
             "fulfilledAt"
     );
 
-    public WishController(WishService wishService) {
+    public WishController(WishService wishService, PersonService personService) {
         this.wishService = wishService;
+        this.personService = personService;
     }
 
     @GetMapping("/byOwner/{personId}")
@@ -51,6 +56,19 @@ public class WishController {
                         .map(WishMapper::toDto);
 
         return ResponseEntity.ok(dtoPage);
+    }
+
+    @GetMapping("/stats/{personId}")
+    public ResponseEntity<WishStatsDTO> getWishStats(@PathVariable UUID personId) {
+        try {
+            personService.getPersonById(personId);
+
+            WishStatsDTO stats = wishService.getWishStats(personId);
+            return ResponseEntity.ok(stats);
+
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.notFound().build();
+        }
     }
 
     @PostMapping

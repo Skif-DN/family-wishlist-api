@@ -1,36 +1,27 @@
-# Family Wishlist REST API
-
-Secure REST API built with Spring Boot and Spring Security.
-The application allows users to manage a family, its members, and their wishes, with a strong focus on security, role-based access, and data isolation.
-
-The project is designed as a backend-first application and prepared for future React integration.
-
+# Family Wishlist
+Full-stack application to manage a family, its members, and their wishes.
+Backend is built with Spring Boot + Spring Security + PostgreSQL, frontend is built with React, and the whole app can run via Docker.
 ---
 
 ## Tech Stack
 
-- Docker
-- Java 17
-- Spring Boot
-- Spring Security + JWT
-- Hibernate / JPA
-- PostgreSQL
-- Jakarta Validation
-- REST API
-- JUnit 5 + Mockito
+- Backend: Java 17, Spring Boot, Spring Security + JWT, Hibernate/JPA, Jakarta Validation, REST API
+- Frontend: React, React Router, React Icons, CSS
+- Database: PostgreSQL
+- Testing: JUnit 5, Mockito
+- DevOps: Docker, Docker Compose
 
 ---
 
 ## Features
+- Full-stack build: frontend is automatically built and bundled via Maven
+### Users
 
-### User
-
-- User registration and authentication using JWT
-- Create and manage a family
-- Add family members
-- Create and manage wishes
-- Access only own data (strict data isolation)
-- Validation and meaningful error responses
+- Register and login with JWT authentication
+- Create and manage families and family members
+- Create, edit, fulfill, and delete wishes
+- View statistics (total and fulfilled wishes)
+- Access restricted to own data (strict data isolation)
 
 ### Admin
 
@@ -38,23 +29,17 @@ The project is designed as a backend-first application and prepared for future R
 - Delete users with cascade removal of related data
 - No access to user domain data (families, persons, wishes)
 
-> Admin role is system-level and follows the **least privilege principle**.
-
 ---
 
-## Security Model
+## Security
 
 - Stateless authentication using JWT
-- Role-based access control (USER, ADMIN)
+- Role-based access (USER, ADMIN)
 - Method-level authorization with @PreAuthorize
-- Admin permissions are limited to user management only
-- Domain data is accessible exclusively by its owner
-
-This approach reflects real-world backend security practices rather than tutorial-style implementations.
-
+- Strict data isolation (users access only their own data)
 ---
 
-## API Overview
+## API Endpoints
 
 ### Authentication
 
@@ -88,53 +73,51 @@ This approach reflects real-world backend security practices rather than tutoria
 
 ---
 
-## Architectural Notes
+## Frontend
+- Responsive UI built with React
+- Display and manage wishes, family members, and statistics
+- Tooltips, modals, and buttons for interactions
+- Sorting, filtering, mobile menu, scroll-to-top
 
-- Clear separation between system-level (Admin) and domain-level (User) responsibilities
-- Centralized exception handling with consistent error responses
-- Transactional data management
-- Controlled cascade deletion for related entities
-- DTO-based API layer (entities are not exposed)
+ ---
+
+## Architecture
+
+- Clear separation between backend (domain and system-level roles) and frontend
+- DTO-based API layer (entities not exposed directly)
+- Transactional data management with controlled cascade deletion
+- Centralized exception handling with meaningful error responses
 
 ---
 
-## How to Run
+## Running the Project
 
-1. Configure PostgreSQL database
-2. Update `application.properties` with database credentials, JWT secret and ADMIN password on `application-example.properties`
-3. Run the application using your IDE or:
-
-```bash
-./mvnw spring-boot:run
-```
-
-## Running with Docker
-
-You can run the application with PostgreSQL and pgAdmin using Docker Compose.
-
-1. Configure the environment file (if using .env) with access rights to the PostgreSQL database, pgAdmin, and the application.
-2. Build and start containers:
+1. Configure PostgreSQL database or another 
+2. Update application.properties with database credentials, JWT secret, and ADMIN password
+3. Run application:
 
 ```bash
 docker compose up --build
 ```
+This will automatically:
 
-This will start:
+- build the backend (Spring Boot)
+- build the frontend (via Maven + React)
+- bundle frontend into the backend
+- start all services
 
-app – Spring Boot on http://localhost:8080
 
-db – PostgreSQL on localhost:5433
+4. For stop Docker and remove containers:
 
-pgadmin – pgAdmin on http://localhost:5050 (use email/password from .env)
-
-3. For stop and remove containers:
+```bash
+docker compose down
+```
+- For stop Docker and remove containers with volumes:
 
 ```bash
 docker compose down -v
 ```
-
--v also removes volumes, useful for starting with a fresh database.
-
+---
 ## Testing
 
 All services and controllers are covered with unit and integration tests using JUnit 5 and Mockito.
@@ -149,21 +132,10 @@ Run tests with:
 
 ## Project Status
 
-The backend is feature-complete and production-ready.
-A React frontend will be added as a separate step.
-
----
-
-## Why this project?
-
-This project demonstrates:
-
-- backend architecture design
-- security-conscious development
-- real-world role separation
-- clean REST API practices
-
-It is intended as a portfolio backend project rather than a tutorial exercise.
+- Full-stack application is production-ready
+- Backend is feature-complete
+- Frontend is fully integrated and served by Spring Boot
+- Actively maintained with ongoing improvements in performance, UX, and code quality
 
 ---
 

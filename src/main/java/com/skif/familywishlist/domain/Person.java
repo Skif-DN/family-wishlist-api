@@ -32,8 +32,6 @@ public class Person {
     private String lastName;
 
     @Column(name = "BirthDay")
-    @Temporal(TemporalType.DATE)
-    @DateTimeFormat(pattern = "dd/MM/yyyy")
     private LocalDate birthDate;
 
     @Column(name = "Gender")

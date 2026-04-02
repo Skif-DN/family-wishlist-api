@@ -1,0 +1,20 @@
+.comfirm-modal-pin {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+}
+
+.confirm-modal-text,
+.confirm-modal-input {
+  margin-bottom: 1rem;
+  font-size: 1rem;
+  color: #555;
+  text-align: center;
+}
+
+.confirm-modal-buttons {
+  display: flex;
+  gap: 2rem;
+  justify-content: center;
+}

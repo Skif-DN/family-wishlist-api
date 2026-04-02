@@ -27,6 +27,9 @@ public class FamilyController {
     public ResponseEntity<FamilyResponseDTO> getMyFamily() {
         Family family = familyService.getFamilyByUser();
 
+        if (family == null){
+            return ResponseEntity.ok(null);
+        }
         return ResponseEntity.ok(FamilyMapper.toDto(family));
     }
 

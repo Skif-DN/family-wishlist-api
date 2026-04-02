@@ -2,7 +2,10 @@ package com.skif.familywishlist.dto.person;
 
 import com.skif.familywishlist.domain.Gender;
 import jakarta.validation.constraints.NotBlank;
+import jakarta.validation.constraints.NotNull;
 import jakarta.validation.constraints.Pattern;
+
+import java.time.LocalDate;
 
 public class PersonCreateDTO {
 
@@ -12,11 +15,13 @@ public class PersonCreateDTO {
     @NotBlank(message = "Last name is required")
     private String lastName;
 
-    @NotBlank(message = "Birth date is required")
-    private String birthDate;
+    @NotNull
+    private LocalDate birthDate;
 
+    @NotNull(message = "Gender is required")
     private Gender gender;
 
+    @NotBlank(message = "PIN is required")
     @Pattern(regexp = "\\d{4}", message = "PIN must be 4 digits")
     private String pin;
 
@@ -36,11 +41,11 @@ public class PersonCreateDTO {
         this.lastName = lastName;
     }
 
-    public String getBirthDate() {
+    public LocalDate getBirthDate() {
         return birthDate;
     }
 
-    public void setBirthDate(String birthDate) {
+    public void setBirthDate(LocalDate birthDate) {
         this.birthDate = birthDate;
     }
 

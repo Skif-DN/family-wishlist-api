@@ -7,11 +7,12 @@ import jakarta.validation.constraints.Size;
 public class UserRegisterDTO {
 
     @NotEmpty(message = "Username is required")
-    @Size(min = 3, max = 15)
+    @Size(min = 3, max = 10,
+    message = "Username must be 3-10 characters long" )
     private String username;
 
     @NotEmpty(message = "Password is required")
-    @Size(min = 8, max = 25, message = "Password must be at least 6 characters")
+    @Size(min = 8, max = 25, message = "Password must be 8-25 characters long, include upper and lower case letters, a number, and a special character")
     @Pattern(
             regexp = "^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d)(?=.*[@$!%*?&])[A-Za-z\\d@$!%*?&]{8,25}$",
             message = "Password must be 8-25 characters long, include upper and lower case letters, a number, and a special character"

@@ -6,7 +6,7 @@ import jakarta.validation.constraints.Size;
 public class ChangeUsernameDTO {
 
     @NotBlank
-    @Size(min = 3, max = 30)
+    @Size(min = 3, max = 10)
     private String newUsername;
 
     public String getNewUsername() {

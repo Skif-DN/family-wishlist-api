@@ -20,7 +20,7 @@ public class Family {
     )
     private UUID id;
 
-    @Column(name = "Name",  unique = true, nullable = false)
+    @Column(name = "Name", nullable = false)
     private String name;
 
     @OneToOne(mappedBy = "family")

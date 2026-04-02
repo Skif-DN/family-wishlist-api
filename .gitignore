@@ -1,16 +1,21 @@
+# Java
 target/
-!.mvn/wrapper/maven-wrapper.jar
-!**/src/main/**/target/
-!**/src/test/**/target/
-.kotlin
+*.class
 
-### IntelliJ IDEA ###
+# Maven
+!.mvn/wrapper/maven-wrapper.jar
+
+# Logs
+*.log
+logs/
+
+# IntelliJ IDEA
 .idea/
 *.iws
 *.iml
 *.ipr
 
-### Eclipse ###
+# Eclipse
 .apt_generated
 .classpath
 .factorypath
@@ -19,24 +24,24 @@ target/
 .springBeans
 .sts4-cache
 
-### NetBeans ###
+# NetBeans
 /nbproject/private/
 /nbbuild/
 /dist/
 /nbdist/
 /.nb-gradle/
 build/
-!**/src/main/**/build/
-!**/src/test/**/build/
 
-### VS Code ###
+### VS Code
 .vscode/
 
-### Mac OS ###
+# OS
 .DS_Store
+Thumbs.db
 
 # Spring Boot config
 application.properties
+application-docker.properties
 application.yml
 
 # Env files
@@ -46,3 +51,9 @@ application.yml
 # Allow example config
 !application-example.properties
 !application-example.yml
+
+#Frontend
+frontend/node_modules/
+frontend/node/
+frontend/dist/
+frontend/src/assets/

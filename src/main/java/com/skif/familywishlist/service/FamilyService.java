@@ -59,12 +59,8 @@ public class FamilyService {
 
     public Family getFamilyByUser() {
         User user = userService.getCurrentUser();
-        Family family = user.getFamily();
 
-        if (family == null) {
-            throw new IllegalStateException("User has no family");
-        }
-        return family;
+        return user.getFamily();
     }
 
     @Transactional
@@ -76,13 +72,8 @@ public class FamilyService {
             throw new IllegalStateException("User has no family");
         }
 
-        LocalDate birthDate;
-        try {
-            DateTimeFormatter formatter = DateTimeFormatter.ofPattern("dd/MM/yyyy");
-            birthDate = LocalDate.parse(dto.getBirthDate(), formatter);
-        }catch (Exception e){
-            throw new IllegalArgumentException("Invalid birth date format. Expected dd/MM/yyyy");
-        }
+        LocalDate birthDate =  dto.getBirthDate();
+
 
         Person person = new Person(
                 dto.getFirstName(),

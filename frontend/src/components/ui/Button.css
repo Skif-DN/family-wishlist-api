@@ -1,0 +1,105 @@
+.btn {
+  padding: 8px 14px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 1rem;
+  border: 1px solid transparent;
+}
+
+.btn-primary {
+  border-color: #4f46e5;
+  color: white;
+  background: #4f46e5;
+}
+
+.btn-primary:hover {
+  background: #4338ca;
+  transition: 0.2s ease;
+}
+
+.btn-primary:active {
+  box-shadow: 0 0 5px #000000 inset;
+  transform: scale(0.95);
+}
+
+.btn-danger {
+  background: #e63946;
+  color: white;
+}
+
+.btn-danger:hover {
+  background: #c92f3a;
+  transition: 0.2s ease;
+}
+
+.btn-danger:active {
+  box-shadow: 0 0 5px #000000 inset;
+  transform: scale(0.95);
+}
+
+.btn-secondary {
+  border: 1px solid #4f46e5;
+  color: #4f46e5;
+}
+
+.btn-secondary:hover:not(.active-sort) {
+  background: #eef2ff;
+  transition: 0.2s ease;
+}
+
+.btn-secondary:active {
+  box-shadow: 0 0 5px #000000 inset;
+  transform: scale(0.95);
+}
+
+.btn-add {
+  background: #4caf50;
+  color: white;
+  font-weight: bold;
+}
+
+.btn-add:hover {
+  background: #3e8e41;
+  transition: 0.2s ease;
+}
+
+.btn-add:active {
+  box-shadow: 0 0 5px #000000 inset;
+  transform: scale(0.95);
+}
+
+.btn-back {
+  position: fixed;
+  top: 0.3rem;
+  left: 1rem;
+  border: none;
+  background: none;
+  color: #999;
+  font-size: 2rem;
+  z-index: 1000;
+}
+
+.btn-up {
+  position: fixed;
+  bottom: 1rem;
+  right: 1rem;
+  border: none;
+  background: none;
+  color: #999;
+  font-size: 2rem;
+  z-index: 1000;
+}
+
+.btn-back:hover,
+.btn-up:hover {
+  color: #2c2c2c;
+  background: #dad9d9;
+  border-radius: 0;
+
+  transition: 0.2s;
+}
+
+.btn-back:active,
+.btn-up:active {
+  transform: scale(0.9);
+}

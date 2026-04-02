@@ -3,6 +3,7 @@ package com.skif.familywishlist.service;
 import com.skif.familywishlist.domain.Person;
 import com.skif.familywishlist.domain.Wish;
 import com.skif.familywishlist.dto.wish.WishRequestDTO;
+import com.skif.familywishlist.dto.wish.WishStatsDTO;
 import com.skif.familywishlist.repositories.PersonRepository;
 import com.skif.familywishlist.repositories.WishRepository;
 import org.springframework.data.domain.Page;
@@ -98,10 +99,18 @@ public class WishService {
             throw new SecurityException("Access denied");
         }
 
+        if (!person.checkPin(dto.getPin(), passwordEncoder)) {
+            throw new SecurityException("Invalid PIN");
+        }
+
         Wish wish = person.getWishes().stream()
                 .filter(w -> w.getId().equals(wishId))
                 .findFirst()
                 .orElseThrow(() -> new IllegalArgumentException("Wish not found"));
+
+        if (wish.isFulfilled()) {
+            throw new IllegalStateException("Cannot edit fulfilled wish");
+        }
 
         wish.setTitle(dto.getTitle());
         wish.setDescription(dto.getDescription());
@@ -117,5 +126,14 @@ public class WishService {
         if (!owner.checkPin(pin, passwordEncoder)) {
             throw new SecurityException("Invalid PIN");
         }
+    }
+
+    public WishStatsDTO getWishStats(UUID ownerId) {
+        if (!personRepository.existsById(ownerId)) {
+            throw new IllegalArgumentException("Person not found");
+        }
+        long total = wishRepository.countByOwnerId(ownerId);
+        long fulfilled = wishRepository.countByOwnerIdAndFulfilledTrue(ownerId);
+        return new WishStatsDTO(total, fulfilled);
     }
 }

@@ -12,4 +12,7 @@ public interface WishRepository extends JpaRepository<Wish, UUID> {
 //    List<Wish> findByOwnerId(UUID ownerId);
 //
     Page<Wish> findByOwnerId(UUID ownerId, Pageable pageable);
+
+    long countByOwnerIdAndFulfilledTrue(UUID ownerId);
+    long countByOwnerId(UUID ownerId);
 }
